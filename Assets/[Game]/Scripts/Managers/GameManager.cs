@@ -4,25 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
-    private static GameManager _instance;
-
-    public static GameManager Instance { get { return _instance; } }
-
-    private void Awake()
-    {
-        if(_instance!=null && _instance != this)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            _instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-    }
-
     public int LevelCoinMultiplier = 2;
 
     private void OnEnable()
@@ -37,13 +20,36 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        StartCoroutine(LoadNextSceneCo());
+    }
+
+    private IEnumerator LoadNextSceneCo()
+    {
         int buildIndex = SceneManager.GetActiveScene().buildIndex + 1;
-        if(!Application.CanStreamedLevelBeLoaded(buildIndex))
+        int scenesCount = SceneManager.sceneCount;
+
+        List<Scene> scenesToBeUnloaded = new List<Scene>();
+
+        for(int i = 0; i <= scenesCount; i++)
         {
-            buildIndex = 0;
+            Scene scene = SceneManager.GetSceneAt(i);
+            if (scene.name.Contains("Level"))
+            {
+                scenesToBeUnloaded.Add(scene);
+            }
         }
 
-        SceneManager.LoadScene(buildIndex);
+        foreach(var sc in scenesToBeUnloaded)
+        {
+            yield return SceneManager.UnloadSceneAsync(sc);
+        }
+        
+        if (!Application.CanStreamedLevelBeLoaded(buildIndex))
+        {
+            buildIndex = 1;
+        }
+
+        yield return SceneManager.LoadSceneAsync(buildIndex, LoadSceneMode.Additive);
         Debug.Log("Next Level");
     }
 }

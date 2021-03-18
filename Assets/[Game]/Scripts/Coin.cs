@@ -7,12 +7,12 @@ public class Coin : MonoBehaviour
 {
     private void OnEnable()
     {
-        FindObjectOfType<CoinManager>().AddCoin(this);
+        CoinManager.Instance.AddCoin(this);
     }
 
     private void OnDisable()
     {
-        FindObjectOfType<CoinManager>().RemoveCoin(this);   
+        CoinManager.Instance.RemoveCoin(this);
     }
 
     public void PickUpCoin()

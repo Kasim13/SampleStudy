@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CoinManager : MonoBehaviour
+public class CoinManager : Singleton<CoinManager>
 {
     public List<Coin> Coins = new List<Coin>();
 
