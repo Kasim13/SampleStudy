@@ -258,6 +258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36a4de94d006a4f46baa65e61d556588, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LevelCoinMultiplier: 2
 --- !u!4 &125749451
 Transform:
   m_ObjectHideFlags: 0

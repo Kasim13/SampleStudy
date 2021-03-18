@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
          Coin coin = other.GetComponent<Coin>();
         if(coin!= null)
         {
-            point++;
+            point += 1 * GameManager.Instance.LevelCoinMultiplier;
             coin.PickUpCoin();
         }
     }
