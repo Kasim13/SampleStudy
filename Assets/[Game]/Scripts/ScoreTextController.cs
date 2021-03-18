@@ -11,11 +11,13 @@ public class ScoreTextController : MonoBehaviour
     private void OnEnable()
     {
         EventManager.OnCoinPickUp.AddListener(UpdateScoreText);
+        EventManager.OnGameOver.AddListener(GameOverText);
     }
 
     private void OnDisable()
     {
         EventManager.OnCoinPickUp.RemoveListener(UpdateScoreText);
+        EventManager.OnGameOver.RemoveListener(GameOverText);
     }
 
     private void UpdateScoreText()
@@ -24,4 +26,8 @@ public class ScoreTextController : MonoBehaviour
         ScoreText.text = "Score : " + point;
     }
 
+    private void GameOverText()
+    {       
+        ScoreText.text = "GameOver";
+    }
 }
