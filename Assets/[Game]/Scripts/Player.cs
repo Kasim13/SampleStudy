@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
         if(coin!= null)
         {
             point++;
-            coin.PickUpCoin(point);
+            coin.PickUpCoin();
         }
     }
 }
