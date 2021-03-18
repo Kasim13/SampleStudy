@@ -5,19 +5,6 @@ using UnityEngine.UI;
 
 public class Coin : MonoBehaviour
 {
-    private void Start()
-    {
-        
-    }
-
-    private void OnDestroy()
-    {
-        
-    }
-
-
-
-
     private void OnEnable()
     {
         FindObjectOfType<CoinManager>().AddCoin(this);
