@@ -18,8 +18,8 @@ public class PlayerHealth : MonoBehaviour
         Player.OnPlayerDamage.RemoveListener(Damage);
     }
 
-    private void Damage()
+    private void Damage(int damageValue)
     {
-        Debug.Log("Vuruldummmm");
+        Debug.Log("Vuruldummmm" + damageValue );
     }
 }

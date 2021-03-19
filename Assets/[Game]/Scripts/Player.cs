@@ -10,9 +10,10 @@ public class Player : MonoBehaviour
     public float MoveSpeed;
     public int point;
 
+    public class DamageEvent : UnityEvent<int> { }
+    public DamageEvent OnPlayerDamage = new DamageEvent();
 
-    public UnityEvent OnPlayerDamage = new UnityEvent();
-
+    public int damage;
 
     private void FixedUpdate()
     {
@@ -28,10 +29,19 @@ public class Player : MonoBehaviour
             point += 1 * GameManager.Instance.LevelCoinMultiplier;
             coin.PickUpCoin();
         }
+        
+        Enemy enemy = other.GetComponent<Enemy>();
+        if (enemy != null) 
+        {
+            damage = enemy.damage;
+            DamagePlayer(); 
+            enemy.EnemyDestroy(); 
+        }
     }
-
+   
     public void DamagePlayer()
     {
-        OnPlayerDamage.Invoke();
+        OnPlayerDamage.Invoke(damage);
     }
 }
+
