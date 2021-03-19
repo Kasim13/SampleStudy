@@ -26,11 +26,13 @@ public class GameManager : Singleton<GameManager>
     private IEnumerator LoadNextSceneCo()
     {
         int buildIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        Scene initScene = SceneManager.GetSceneAt(0);
+        SceneManager.SetActiveScene(initScene);
         int scenesCount = SceneManager.sceneCount;
 
         List<Scene> scenesToBeUnloaded = new List<Scene>();
 
-        for(int i = 0; i <= scenesCount; i++)
+        for(int i = 0; i < scenesCount; i++)
         {
             Scene scene = SceneManager.GetSceneAt(i);
             if (scene.name.Contains("Level"))
@@ -41,7 +43,7 @@ public class GameManager : Singleton<GameManager>
 
         foreach(var sc in scenesToBeUnloaded)
         {
-            yield return SceneManager.UnloadSceneAsync(sc);
+            yield return SceneManager.UnloadSceneAsync(sc.buildIndex);
         }
         
         if (!Application.CanStreamedLevelBeLoaded(buildIndex))
@@ -50,6 +52,11 @@ public class GameManager : Singleton<GameManager>
         }
 
         yield return SceneManager.LoadSceneAsync(buildIndex, LoadSceneMode.Additive);
+
+        Scene levelScene = SceneManager.GetSceneByBuildIndex(buildIndex);
+        SceneManager.SetActiveScene(levelScene);
+        PlayerPrefs.SetString("LastLevel", levelScene.name);
+
         Debug.Log("Next Level");
     }
 }

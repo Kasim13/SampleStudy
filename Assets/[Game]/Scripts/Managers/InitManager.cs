@@ -7,9 +7,8 @@ public class InitManager : MonoBehaviour
 {
     private IEnumerator Start()
     {
-        Scene scene = SceneManager.GetSceneByName("Level01");
-        yield return SceneManager.LoadSceneAsync(scene.buildIndex, LoadSceneMode.Additive);
-        SceneManager.SetActiveScene(scene);
+        yield return SceneManager.LoadSceneAsync(PlayerPrefs.GetString("LastLevel", "Level01"), LoadSceneMode.Additive);
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(PlayerPrefs.GetString("LastLevel", "Level01")));
         Destroy(gameObject);
     }
 }
