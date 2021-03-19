@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
@@ -8,6 +9,10 @@ public class Player : MonoBehaviour
     public Rigidbody Rigidbody { get { return (rigidbody == null) ? rigidbody = GetComponent<Rigidbody>() : rigidbody;  } }
     public float MoveSpeed;
     public int point;
+
+
+    public UnityEvent OnPlayerDamage = new UnityEvent();
+
 
     private void FixedUpdate()
     {
@@ -23,5 +28,10 @@ public class Player : MonoBehaviour
             point += 1 * GameManager.Instance.LevelCoinMultiplier;
             coin.PickUpCoin();
         }
+    }
+
+    public void DamagePlayer()
+    {
+        OnPlayerDamage.Invoke();
     }
 }
